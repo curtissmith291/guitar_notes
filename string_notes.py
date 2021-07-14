@@ -15,7 +15,7 @@ fret_input_v1 = [0, 0, 0, 0, 0, 0]
 fret_input_v2 = [3, 2, 0, 0, 0, 3]
 fret_input_v3 = ["M", 3, 2, 0, 1, 0]
 
-# Step 1: find notes for each string
+# Find notes for each string
 # input = list of fret numbers
 # output = list of notes
 # Refactor using previous function
