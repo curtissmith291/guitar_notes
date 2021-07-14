@@ -16,11 +16,12 @@ value_notes = {1: 'A', 2: 'A#/Bb', 3: 'B', 4: 'C', 5: 'C#/Db', 6: 'D', 7: 'D#/Eb
 value_notes_flats = {1: 'A', 2: 'Bb', 3: 'B', 4: 'C', 5: 'Db', 6: 'D', 7: 'Eb', 8: 'E', 9: 'F', 
     10: 'Gb', 11: 'G', 12: 'Ab'}
 
+
+
 input = "D"
 
-
 # Function retrurns the notes that make up a major chord
-# i.e., the first, third, and the fifth degrees
+# i.e., the first/root, third, and the fifth degrees
 def chord_notes_major(note):
     value = note_values[note]
     third_num = value + 4
@@ -34,7 +35,7 @@ def chord_notes_major(note):
     return note, third, fifth
 
 # Function retrurns the notes that make up a minor chord
-# i.e., the first, minor third, and the fifth degrees
+# i.e., the first/root, minor third, and the fifth degrees
 def chord_notes_minor(note):
     value = note_values[note]
     third_num = value + 3

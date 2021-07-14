@@ -23,7 +23,7 @@ value_notes = {1: 'A', 2: 'A#/Bb', 3: 'B', 4: 'C', 5: 'C#/Db', 6: 'D', 7: 'D#/Eb
 value_notes_flats = {1: 'A', 2: 'Bb', 3: 'B', 4: 'C', 5: 'Db', 6: 'D', 7: 'Eb', 8: 'E', 9: 'F', 
     10: 'Gb', 11: 'G', 12: 'Ab'}
 
-string_chrom_value = {'E': 8, 'A': 1, 'D': 6, 'G': 11, 'B': 3, 'e': 8}
+string_value = {'E': 8, 'A': 1, 'D': 6, 'G': 11, 'B': 3, 'e': 8}
 
 string_names = ['E', 'A', 'D', 'G', 'B', 'e']
 
@@ -50,7 +50,7 @@ while True:
   
 
 def note_value(string, fret):
-    note_num = string_chrom_value[string] + fret
+    note_num = string_value[string] + fret
     # checks if number is >12, if so, subtracts 12 until it's 12 or lower
     while True:
         if note_num > 12:
@@ -58,7 +58,7 @@ def note_value(string, fret):
             continue
         else:
             break
-    note = value_notes_sharps[note_num]
+    note = value_notes[note_num]
     return note
 
 print(note_value(string_input, fret_input))
