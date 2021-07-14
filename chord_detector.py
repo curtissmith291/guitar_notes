@@ -12,9 +12,11 @@ string_names = ['E', 'A', 'D', 'G', 'B', 'e']
 
 # Need to allow for muted strings...
 # Make value 'M'?
-fret_input_v1 = [0, 0, 0, 0, 0, 0]
+fret_input_v1 = [3, 5, 5, 4, 3, 3]
 fret_input_v2 = [3, 2, 0, 0, 0, 3]
 fret_input_v3 = ["M", 3, 2, 0, 1, 0]
+fret_input_v4 = ["M", "M", 0, 2, 3, 1]
+fret_input_v5 = [0, 2, 2, "M", "M", "M"]
 
 # STEP 1
 # Find notes for each string
@@ -22,7 +24,7 @@ fret_input_v3 = ["M", 3, 2, 0, 1, 0]
 # output = list of notes
 # Refactor using previous function
 
-test_list = fret_input_v3
+test_list = fret_input_v2
 
 def note_value(string, fret):
     note_num = string_value[string] + fret
@@ -47,7 +49,8 @@ for item in test_list:
         string_count += 1
     else:
         note_list.append(0)
-print(note_list)
+        string_count += 1
+print(f'Input Notes: {note_list}')
 
 # STEP 2
 # Find root note 
@@ -60,7 +63,7 @@ for item in note_list:
     else:
         continue
 
-print(root_note)
+print(f'Root Note: {root_note}')
 
 # STEP 3
 # Return list of notes for major/minor chords
@@ -83,48 +86,98 @@ def chord_notes_major(note):
 # i.e., the first/root, minor third, and the fifth degrees
 def chord_notes_minor(note):
     value = note_values[note]
-    third_num = value + 3
-    if third_num > 12:
-        third_num -= 12
-    third = value_notes[third_num]
+    min_third_num = value + 3
+    if min_third_num > 12:
+        min_third_num -= 12
+    third = value_notes[min_third_num]
     fifth_num = value + 7
     if fifth_num > 12:
         fifth_num -= 12
     fifth = value_notes[fifth_num]
     return note, third, fifth
 
+# Function retrurns the notes that make up a augmented chord
+# i.e., the first/root, third, and the augmented fifth degrees
 def chord_notes_aug(note):
     value = note_values[note]
     third_num = value + 4
     if third_num > 12:
         third_num -= 12
     third = value_notes[third_num]
-    fifth_num = value + 8
-    if fifth_num > 12:
-        fifth_num -= 12
-    fifth = value_notes[fifth_num]
+    aug_fifth_num = value + 8
+    if aug_fifth_num > 12:
+        aug_fifth_num -= 12
+    fifth = value_notes[aug_fifth_num]
     return note, third, fifth
 
+# Function retrurns the notes that make up a diminished chord
+# i.e., the first/root, minor third, and the diminished fifth degrees
 def chord_notes_dim(note):
     value = note_values[note]
-    third_num = value + 3
-    if third_num > 12:
-        third_num -= 12
-    third = value_notes[third_num]
-    fifth_num = value + 6
+    min_third_num = value + 3
+    if min_third_num > 12:
+        min_third_num -= 12
+    third = value_notes[min_third_num]
+    dim_fifth_num = value + 6
+    if dim_fifth_num > 12:
+        dim_fifth_num -= 12
+    fifth = value_notes[dim_fifth_num]
+    return note, third, fifth
+
+# Function retrurns the notes that make up a minor chord
+# i.e., the first/root and the fifth degrees
+def chord_notes_fifth(note):
+    value = note_values[note]
+    fifth_num = value + 7
     if fifth_num > 12:
         fifth_num -= 12
     fifth = value_notes[fifth_num]
-    return note, third, fifth
+    return note, fifth
+
+# List of tuples containing all list of chord notes
+all_chord_notes = []
 
 major_notes = chord_notes_major(root_note)
-print(major_notes)
+all_chord_notes.append(major_notes)
+
 
 minor_notes = chord_notes_minor(root_note)
-print(minor_notes)
+all_chord_notes.append(minor_notes)
+
 
 augmented_notes = chord_notes_aug(root_note)
-print(augmented_notes)
+all_chord_notes.append(augmented_notes)
+
 
 diminished_notes = chord_notes_dim(root_note)
-print(diminished_notes)
+all_chord_notes.append(diminished_notes)
+
+fifth_notes = chord_notes_fifth(root_note)
+all_chord_notes.append(fifth_notes)
+
+# STEP 4
+# Create a dictionary of the tuples of chord notes
+chord_strings = ["Major", "Minor", "Augmented", "Diminished", "5/Power"]
+chord_notes_dict = dict(zip(chord_strings, all_chord_notes))
+print(chord_notes_dict)
+
+
+# STEP 5
+# !!! Only matches chords where the root note = first degree
+# More complex chords can have a different root note
+# Match input notes to chord lists returned in step 3
+
+# 5.1 Iterate through chord dictionary
+counter = 0
+for item in chord_notes_dict.items():
+    check = all(i in note_list for i in item[1])
+    if check == True:
+        print(f'{root_note} {item[0]} chord')
+    if check == False:
+        counter += 1
+        if counter == len(chord_notes_dict):
+            print("Input notes do not match a chord")
+            break
+        else: 
+            continue
+    
