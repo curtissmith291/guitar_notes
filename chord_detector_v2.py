@@ -17,7 +17,7 @@ fret_input_v1 = [3, 5, 5, 4, 3, 3]
 fret_input_v2 = [3, 2, 0, 0, 0, 3]
 fret_input_v3 = ["M", 3, 2, 0, 1, 0]
 fret_input_v4 = ["M", "M", 0, 2, 3, 1]
-fret_input_v5 = [0, 2, 2, "M", "M", "M"]
+fret_input_v5 = [0, 2, 2, 0, 0, 0]
 
 # STEP 1
 # Find notes for each string
@@ -25,7 +25,7 @@ fret_input_v5 = [0, 2, 2, "M", "M", "M"]
 # output = list of notes
 # Refactor using previous function
 
-test_list = fret_input_v2
+test_list = fret_input_v4
 
 def note_value(string, fret):
     note_num = string_value[string] + fret
@@ -43,15 +43,18 @@ def note_value(string, fret):
 # This block assign notes to each item in the input list
 # Muted string ('M') are assigned '0'  
 string_count = 0
-note_list = []
+input_notes = []
 for item in test_list:
     if type(item) is int:
-        note_list.append(note_value(string_names[string_count], item))
+        input_notes.append(note_value(string_names[string_count], item))
         string_count += 1
     else:
-        note_list.append(0)
+        input_notes.append("--")
         string_count += 1
-print(f'Input Notes: {note_list}')
+print(f'Input Notes: {input_notes}')
+
+note_list = [x for x in input_notes if x != "--"]
+print(note_list)
 
 # STEP 2
 # Find root note 
@@ -144,7 +147,7 @@ degree_strings = ["Root", "Minor Second", "Major Second", "Minor Third", "Major 
 degree_dictionary = dict(zip(degree_strings, degrees(root_note)))
 print(degree_dictionary)
 
-# Function to return chord structures based of dictionary
+# loop to return chord structures based of dictionary
 for item in degree_dictionary.items():
     major_chord = [degree_dictionary["Root"], degree_dictionary["Major Third"], degree_dictionary["Perfect Fifth"]]
     minor_chord = [degree_dictionary["Root"], degree_dictionary["Minor Third"], degree_dictionary["Perfect Fifth"]]
@@ -163,6 +166,8 @@ for item in degree_dictionary.items():
     diminished_seventh_chords = [degree_dictionary["Root"], degree_dictionary["Minor Third"], degree_dictionary["Diminished Fifth"], degree_dictionary["Major Sixth"]]
     half_diminished_seventh_chords = [degree_dictionary["Root"], degree_dictionary["Minor Third"], degree_dictionary["Diminished Fifth"], degree_dictionary["Minor Seventh"]]
 
+# # STEP 4
+# # Create a dictionary of the lists of chord notes
 chord_list = [major_chord, minor_chord, augmented_chord, diminished_chord, fifth_chord, suspended4_chord, suspended2_chord, major_sixth_chord, minor_sixth_chord, 
     dominant_seventh_chord, major_seventh_chord, minor_seventh_chord, minor_major_seventh_chords, augmented_seventh_chords, diminished_seventh_chords, 
     half_diminished_seventh_chords]
@@ -171,31 +176,28 @@ chord_strings = chord_strings.split(", ")
 chord_dictionary = dict(zip(chord_strings, chord_list))
 print(chord_dictionary)
 
-
-
-# # STEP 4
-# # Create a dictionary of the tuples of chord notes
-# chord_strings = ["Major", "Minor", "Augmented", "Diminished", "5/Power"]
-# chord_notes_dict = dict(zip(chord_strings, all_chord_notes))
-# print(chord_notes_dict)
-
-
 # # STEP 5
 # # !!! Only matches chords where the root note = first degree
 # # More complex chords can have a different root note
-# # Match input notes to chord lists returned in step 3
 
-# # 5.1 Iterate through chord dictionary
-# counter = 0
-# for item in chord_notes_dict.items():
-#     check = all(i in note_list for i in item[1])
-#     if check == True:
-#         print(f'{root_note} {item[0]} chord')
-#     if check == False:
-#         counter += 1
-#         if counter == len(chord_notes_dict):
-#             print("Input notes do not match a chord")
-#             break
-#         else: 
-#             continue
+# 5.1 Iterate through chord dictionary
+counter = 0
+for item in chord_dictionary.items():
+    check = all([i in note_list for i in item[1]]) and all([i in item[1] for i in note_list])
+    if check == True:
+        print(f'{root_note} {item[0]} chord')
+    if check == False:
+        counter += 1
+        if counter == len(chord_dictionary):
+            print("Input notes do not match a chord")
+            break
+        else: 
+            continue
     
+
+# for item in dict_chords.items():
+#     check = all([i in note_list for i in item[1]]) and all([i in item[1] for i in note_list])
+#     if check == True:
+#         print(f'{input_notes[0]} {item[0]} chord')
+#     if check == False:
+#         print(f'not {input_notes[0]} {item[0]} chord')
