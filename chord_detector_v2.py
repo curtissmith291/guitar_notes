@@ -54,7 +54,7 @@ for item in test_list:
 print(f'Input Notes: {input_notes}')
 
 note_list = [x for x in input_notes if x != "--"]
-print(note_list)
+print(f'Note List: {note_list}')
 
 # STEP 2
 # Find root note 
