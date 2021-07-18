@@ -53,15 +53,23 @@ def note_converter(list_to_check):
     string_count = 0
     inputs_fret_values = []
     for item in list_to_check:
-        if type(item) is int:
-            inputs_fret_values.append(note_value(string_names[string_count], item))
+        try:
+            x = int(item)
+            inputs_fret_values.append(note_value(string_names[string_count], x))
             string_count += 1
-        else:
+        except:
             inputs_fret_values.append("--")
             string_count += 1
-    list_of_input_notes = [x for x in inputs_fret_values if x != "--"]
-    root = list_of_input_notes[0]
-    return inputs_fret_values, list_of_input_notes, root
+    print(inputs_fret_values)
+    if inputs_fret_values == ['--', '--', '--', '--', '--', '--']:
+        list_of_input_notes = "NA"
+        root = "NA"
+        print("need to enter at least one fret")
+        return inputs_fret_values, list_of_input_notes, root
+    else:
+        list_of_input_notes = [x for x in inputs_fret_values if x != "--"]
+        root = list_of_input_notes[0]
+        return inputs_fret_values, list_of_input_notes, root
 
 # Function returns the degrees based on the user input root note
 def degree_calculator(note):
@@ -185,12 +193,12 @@ def chord_detector(root, list_of_notes, dictionary_of_chords):
 # string_high_e = input()
 
 # Quick Testing
-string_low_e = ""
-string_a = 3
-string_d = 2
-string_g = 0
-string_b = 1
-string_high_e = 0
+string_low_e = "3"
+string_a = '2'
+string_d = '0'
+string_g = '0'
+string_b = '0'
+string_high_e = '2'
 
 # Combines all inputs into list
 string_list = [string_low_e, string_a, string_d, string_g, string_b, string_high_e]
@@ -235,3 +243,9 @@ print(f'Chord Dictinary: {chord_dictionary}')
 
 result = chord_detector(root_note, note_list, chord_dictionary)
 print(result)
+
+# list of dictionaries to print
+list_of_dictionaries = []
+for item in chord_dictionary.items():
+    list_of_dictionaries.append({"chord_type": item[0], "notes": item[1]})
+print(list_of_dictionaries)
