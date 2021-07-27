@@ -178,6 +178,7 @@ def chord_detector(root, list_of_notes, dictionary_of_chords):
                 return y
             else: 
                 continue
+
 # ------------------
 # Code Starts Here
 # ------------------

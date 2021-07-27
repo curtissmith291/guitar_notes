@@ -83,101 +83,151 @@
 # y = int(x)
 # print (y)
 
-note_values = {'A': 1, 'A#/Bb': 2, 'B': 3, 'C': 4, 'C#/Db': 5, 'D': 6, 'D#/Eb': 7, 'E': 8, 'F': 9, 
-    'F#/Gb': 10, 'G': 11, 'G#/Ab': 12}
+# note_values = {'A': 1, 'A#/Bb': 2, 'B': 3, 'C': 4, 'C#/Db': 5, 'D': 6, 'D#/Eb': 7, 'E': 8, 'F': 9, 
+#     'F#/Gb': 10, 'G': 11, 'G#/Ab': 12}
 
-value_notes = {1: 'A', 2: 'A#/Bb', 3: 'B', 4: 'C', 5: 'C#/Db', 6: 'D', 7: 'D#/Eb', 8: 'E', 9: 'F', 
-    10: 'F#/Gb', 11: 'G', 12: 'G#/Ab'}
+# value_notes = {1: 'A', 2: 'A#/Bb', 3: 'B', 4: 'C', 5: 'C#/Db', 6: 'D', 7: 'D#/Eb', 8: 'E', 9: 'F', 
+#     10: 'F#/Gb', 11: 'G', 12: 'G#/Ab'}
 
-string_value = {'E': 8, 'A': 1, 'D': 6, 'G': 11, 'B': 3, 'e': 8}
+# string_value = {'E': 8, 'A': 1, 'D': 6, 'G': 11, 'B': 3, 'e': 8}
 
-string_names = ['E', 'A', 'D', 'G', 'B', 'e']
+# string_names = ['E', 'A', 'D', 'G', 'B', 'e']
 
-# Quick Testing
-string_low_e = "3"
-string_a = '2'
-string_d = '0'
-string_g = '0'
-string_b = '0'
-string_high_e = '2'
+# # Quick Testing
+# string_low_e = "3"
+# string_a = '2'
+# string_d = '0'
+# string_g = '0'
+# string_b = '0'
+# string_high_e = '2'
 
-# string_low_e = ""
-# string_a = ''
-# string_d = ''
-# string_g = ''
-# string_b = ''
-# string_high_e = ''
-
-
-def note_value(string, fret):
-    '''
-    This functon converts the fret number to a numerical note value
-    '''
-    note_num = string_value[string] + fret
-    # checks if number is >12, if so, subtracts 12 until it's 12 or lower
-    while True:
-        if note_num > 12:
-            note_num = note_num - 12
-            continue
-        else:
-            break
-    note = value_notes[note_num]
-    return note
-
-def note_converter2(list_to_check):
-    '''
-    This funtion iterates through input fret values and assigns note to numerical inputs and '--' to muted strings
-    '''
-    string_count = 0
-    inputs_fret_values = []
-    for item in list_to_check:
-        try:
-            x = int(item)
-            inputs_fret_values.append(note_value(string_names[string_count], x))
-            string_count += 1
-        except:
-            inputs_fret_values.append("--")
-            string_count += 1
-    print(inputs_fret_values)
-    if inputs_fret_values == ['--', '--', '--', '--', '--', '--']:
-        list_of_input_notes = "NA"
-        root = "NA"
-        print("need to enter at least one fret")
-        return inputs_fret_values, list_of_input_notes, root
-    else:
-        list_of_input_notes = [x for x in inputs_fret_values if x != "--"]
-        root = list_of_input_notes[0]
-        return inputs_fret_values, list_of_input_notes, root
+# # string_low_e = ""
+# # string_a = ''
+# # string_d = ''
+# # string_g = ''
+# # string_b = ''
+# # string_high_e = ''
 
 
-string_list = [string_low_e, string_a, string_d, string_g, string_b, string_high_e]
-print(string_list)
+# def note_value(string, fret):
+#     '''
+#     This functon converts the fret number to a numerical note value
+#     '''
+#     note_num = string_value[string] + fret
+#     # checks if number is >12, if so, subtracts 12 until it's 12 or lower
+#     while True:
+#         if note_num > 12:
+#             note_num = note_num - 12
+#             continue
+#         else:
+#             break
+#     note = value_notes[note_num]
+#     return note
 
-# Checks input for empty (muted) strings, assigns them '--', assigns notes to input values
-input_notes, note_list, root_note = note_converter2(string_list)
-print(input_notes)
-print(note_list)
-print(root_note)
+# def note_converter2(list_to_check):
+#     '''
+#     This funtion iterates through input fret values and assigns note to numerical inputs and '--' to muted strings
+#     '''
+#     string_count = 0
+#     inputs_fret_values = []
+#     for item in list_to_check:
+#         try:
+#             x = int(item)
+#             inputs_fret_values.append(note_value(string_names[string_count], x))
+#             string_count += 1
+#         except:
+#             inputs_fret_values.append("--")
+#             string_count += 1
+#     print(inputs_fret_values)
+#     if inputs_fret_values == ['--', '--', '--', '--', '--', '--']:
+#         list_of_input_notes = "NA"
+#         root = "NA"
+#         print("need to enter at least one fret")
+#         return inputs_fret_values, list_of_input_notes, root
+#     else:
+#         list_of_input_notes = [x for x in inputs_fret_values if x != "--"]
+#         root = list_of_input_notes[0]
+#         return inputs_fret_values, list_of_input_notes, root
 
 
+# string_list = [string_low_e, string_a, string_d, string_g, string_b, string_high_e]
+# print(string_list)
 
-def note_converter(list_to_check):
-    '''
-    This funtion iterates through input fret values and assigns note to numerical inputs and '--' to muted strings
-    '''
-    string_count = 0
-    inputs_fret_values = []
-    for item in list_to_check:
-        print(f'Item: {item}')
-        print(type(item))
-        print(f'StringCount: {string_count}')
-        print(f'input_frets_values: {inputs_fret_values}')
-        if type(item) is int:
-            inputs_fret_values.append(note_value(string_names[string_count], item))
-            string_count += 1
-        else:
-            inputs_fret_values.append("--")
-            string_count += 1
-    list_of_input_notes = [x for x in inputs_fret_values if x != "--"]
-    root = list_of_input_notes[0]
-    return inputs_fret_values, list_of_input_notes, root
+# # Checks input for empty (muted) strings, assigns them '--', assigns notes to input values
+# input_notes, note_list, root_note = note_converter2(string_list)
+# print(input_notes)
+# print(note_list)
+# print(root_note)
+
+# def note_converter(list_to_check):
+#     '''
+#     This funtion iterates through input fret values and assigns note to numerical inputs and '--' to muted strings
+#     '''
+#     string_count = 0
+#     inputs_fret_values = []
+#     for item in list_to_check:
+#         print(f'Item: {item}')
+#         print(type(item))
+#         print(f'StringCount: {string_count}')
+#         print(f'input_frets_values: {inputs_fret_values}')
+#         if type(item) is int:
+#             inputs_fret_values.append(note_value(string_names[string_count], item))
+#             string_count += 1
+#         else:
+#             inputs_fret_values.append("--")
+#             string_count += 1
+#     list_of_input_notes = [x for x in inputs_fret_values if x != "--"]
+#     root = list_of_input_notes[0]
+#     return inputs_fret_values, list_of_input_notes, root
+
+# low = 0 
+# high = 3
+# # add check to make sure high is greater than low
+
+# note_range = list(range(low, high + 1))
+# print(note_range)
+
+# for i in range(0, 7):
+# root_note = "a"
+# current_chord_structure = []
+# for i in range(0, 1):
+#     current_chord_structure.append("--")
+# current_chord_structure.append(root_note)
+# print(current_chord_structure)
+
+import itertools
+
+iterable = ["C", "E", "G"]
+# x = list(itertools.combinations(iterable, 3))
+# print(x)
+
+# y = []
+# for L in range(0, len(iterable)+1):
+#     for subset in itertools.permutations(iterable, L):
+#         if len(subset) == len(iterable):
+#             y.append(subset)
+
+# print(y)
+
+# y = []
+# for x in itertools.product(iterable, repeat=4):
+#     y.append(list(x))
+
+# print(y)
+
+# y = [list(x) for x in itertools.product(iterable, repeat=4)]
+
+# print(y)
+
+# z = ['C']
+# # print(type(z))
+# new_list = []
+# for i in y:
+#     temp_list = z + i
+#     new_list.append(temp_list)
+# print(new_list)
+
+low = 0 
+high = 3
+fret_range = [low, high]
+print(fret_range)
