@@ -227,7 +227,34 @@ iterable = ["C", "E", "G"]
 #     new_list.append(temp_list)
 # print(new_list)
 
-low = 0 
-high = 3
-fret_range = [low, high]
-print(fret_range)
+# low = 0 
+# high = 3
+# fret_range = [low, high]
+# print(fret_range)
+
+
+# key = "A#/Bb"
+
+# if len(key) == 5:
+#     print(True)
+#     key_html = key[0] + "&#9837" + key[2] + key[3] + "&#9839"
+
+# print(key_html)
+
+dictionary = {
+'C': {'note': 'C', 'type': 'Major', 'structures': [['--', 3, 2, 0, 1, 0], ['--', 3, 2, 0, 1, 3]]}, 
+'D': {'note': 'D', 'type': 'Minor', 'structures': [['--', '--', 0, 2, 3, 1]]}, 
+'E': {'note': 'E', 'type': 'Minor', 'structures': [[0, 2, 2, 0, 0, 0], [0, 2, 2, 0, 0, 3], [0, 2, 2, 4, 0, 3], ['--', '--', 2, 0, 0, 0], ['--', '--', 2, 0, 0, 3], ['--', '--', 2, 4, 0, 3]]}, 
+'F': {'note': 'F', 'type': 'Major', 'structures': [[1, 0, 3, 2, 1, 1], [1, 3, 3, 2, 1, 1], ['--', '--', 3, 2, 1, 1]]}, 
+'G': {'note': 'G', 'type': 'Major', 'structures': [[3, 2, 0, 0, 0, 3], [3, 2, 0, 0, 3, 3], [3, 2, 0, 4, 0, 3], [3, 2, 0, 4, 3, 3]]}, 
+'A': {'note': 'A', 'type': 'Minor', 'structures': [['--', 0, 2, 2, 1, 0], ['--', '--', '--', 2, 1, 0]]}, 
+'B': {'note': 'B', 'type': 'Diminished', 'structures': [['--', 2, 0, 4, 0, 1], ['--', 2, 0, 4, 3, 1], ['--', 2, 3, 4, 3, 1], ['--', '--', '--', 4, 3, 1]]}}
+
+list_of_dicts = []
+# for x in dictionary.values():
+#     list_of_dicts.append(x)
+
+list_of_dicts = [x for x in dictionary.values()]
+
+print(list_of_dicts)
+

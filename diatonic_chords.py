@@ -1,10 +1,8 @@
-# Input --> key
-# Input --> fret range
-# Output --> fret positions for chords in that key
-
 import itertools
 
-# Dictionaries
+# --------------------
+# Dictionaries/Lists
+# --------------------
 
 note_values = {'A': 1, 'A#/Bb': 2, 'B': 3, 'C': 4, 'C#/Db': 5, 'D': 6, 'D#/Eb': 7, 'E': 8, 'F': 9, 
     'F#/Gb': 10, 'G': 11, 'G#/Ab': 12}
@@ -18,8 +16,17 @@ string_names = ['E', 'A', 'D', 'G', 'B', 'e']
 
 string_counts = {'E': 0, 'A': 1, 'D': 2, 'G': 3, 'B': 4, 'e': 5}
 
+# defining chord structures for types of chords
+chord_structures = {
+    "Major": ["Root", "Major Third", "Perfect Fifth"],
+    "Minor": ["Root", "Minor Third", "Perfect Fifth"],
+    "Diminished": ["Root", "Minor Third", "Diminished Fifth"],
+}
 
-# Functions
+# --------------------
+# Defining Functions
+# --------------------
+
 def note_value(string, fret):
     '''
     This functon converts the fret number to a numerical note value
@@ -62,37 +69,33 @@ def fret_in_range(fret_list, fret_range):
     This function checks if the fret numbers of the input chord are within the range specified
     '''
     check = []
-    # creates a list of just fret numbers, removes "--""
+    added_12 = False
+    # creates a list of just fret numbers, removes "--"
+    # Adds 12 to the frets if any frets are over 12 and note is lower than the min in fret range
     for i in fret_list:
         if i != '--':
-            check.append(i)
-    if max(check) <= max(fret_range) and min(check) >= min(fret_range):
-        return fret_list
-
-
-            
-
-
-# STEP 1: Select Key
-
-keys = ('A', 'A#/Bb', 'B', 'C', 'C#/Db', 'D', 'D#/Eb', 'E', 'F', 'F#/Gb', 'G','G#/Ab')
-key = 'C'
-
-# STEP 2: Input fret range
-low = 7 
-high = 10
-fret_range = [low, high]
-# add check to make sure high is greater than low
-
-note_range_num = list(range(low, high + 1))
-print(note_range_num)
-
-
-
-root_note = key
-
-
-# STEP 3: Calculate degrees of root note; will need to do again for each degree
+            if max(fret_range) >= 12 and i < min(fret_range):
+                added_12 = True
+                check.append(i + 12)
+            else:
+                check.append(i)
+    # print(f'check: {check}')
+    # print(max(fret_range))
+    # print(min(fret_range))
+    if added_12 == False:
+        if max(check) <= max(fret_range) and min(check) >= min(fret_range):
+            return fret_list
+    elif added_12 == True:
+        if max(check) <= max(fret_range) and min(check) >= min(fret_range):
+            fret_list_added = []
+            for i in fret_list:
+                if i == "--":
+                    fret_list_added.append('--')
+                elif i < min(fret_range):
+                    fret_list_added.append(i + 12)
+                else:
+                    fret_list_added.append(i)
+            return fret_list_added
 
 # Function returns the degrees based on the user input root note
 def degree_calculator(note):
@@ -178,34 +181,30 @@ def degree_calculator(note):
 
     return dictionary_of_degrees
 
-def chord_detector(root, list_of_notes, dictionary_of_chords):
-    '''
-    This function takes three arguments: root note, a list of notes, and the dictionary of chords.
-    The dictionary is iterated through; if the dictionary notes and the input notes perfectly match, a chord is found; 
-    else, the iteration continues. 
-    If no match is found, "Input notes do not match a chord" is returned. 
 
-    **Note** This function ONLY returns chords in which the root note is part of the chord. Some chord shortcuts remove the 
-    root note to make the chord easier to play: this function will not recognize those chords. 
-    '''
-    counter = 0
-    for item in dictionary_of_chords.items():
-        check = all([i in list_of_notes for i in item[1]]) and all([i in item[1] for i in list_of_notes])
-        if check == True:
-            # print(f'{root_note} {item[0]} chord')
-            x = (f'{root} {item[0]} chord')
-            return x
-        if check == False:
-            counter += 1
-            if counter == len(dictionary_of_chords):
-                # print("Input notes do not match a chord")
-                y = ("Input notes do not match a chord")
-                return y
-            else: 
-                continue
-            
+# --------------------
+# Program starts below
+# --------------------         
 
-# print(degree_calculator(root_note))
+
+# STEP 1: Select Key
+# switch to user input for Django
+
+keys = ('A', 'A#/Bb', 'B', 'C', 'C#/Db', 'D', 'D#/Eb', 'E', 'F', 'F#/Gb', 'G','G#/Ab')
+key = 'C'
+
+# STEP 2: Input fret range
+# switch to user input for Django
+
+low = 0 
+high = 4
+fret_range = [low, high]
+# add check to make sure high is greater than low
+
+root_note = key
+
+
+# STEP 3: Calculate degrees of root note; will need to do again for each degree
 dictionary_of_degrees = degree_calculator(root_note)
 
 # Create dictionary of major scale notes
@@ -219,11 +218,11 @@ major_scale =   {
     "Major Seventh":dictionary_of_degrees["Major Seventh"]
 }
 
-print(f'Major Scale: {major_scale}')
+# print(f'Major Scale: {major_scale}')
 
 # initialize dictionary of diatonic chords
 diatonic_chords = {
-    dictionary_of_degrees["Root"]: {"note": dictionary_of_degrees["Root"],"type" : "Major", "structures": []},
+    dictionary_of_degrees["Root"]: {"note": dictionary_of_degrees["Root"], "type" : "Major", "structures": []},
     dictionary_of_degrees["Major Second"]: {"note": dictionary_of_degrees["Major Second"],"type" : "Minor", "structures": []},
     dictionary_of_degrees["Major Third"]: {"note": dictionary_of_degrees["Major Third"],"type" : "Minor", "structures": []},
     dictionary_of_degrees["Perfect Fourth"]: {"note": dictionary_of_degrees["Perfect Fourth"],"type" : "Major", "structures": []},
@@ -234,30 +233,26 @@ diatonic_chords = {
 
 # print(diatonic_chords)
 
-chord_structures = {
-    "Major": ["Root", "Major Third", "Perfect Fifth"],
-    "Minor": ["Root", "Minor Third", "Perfect Fifth"],
-    "Diminished": ["Root", "Minor Third", "Diminished Fifth"],
-}
+
 
 # iterate through 7 notes in major scale
 for note in major_scale.values():
     # 1: calculate degrees for note
-    temp_dictionary = degree_calculator(note)
+    major_scale_degrees_dict = degree_calculator(note)
     # print(temp_dictionary)
     # 2: get chord type
     chord_type = diatonic_chords[note]["type"]
     # print(chord_type)
     # 3: get chord structure
     structure = chord_structures[chord_type]
-    print(structure)
+    # print(structure)
     # 4: get notes for structure; i.e., the notes for the chord of the current root note
     structure_notes = []
     for item in structure:
-        structure_notes.append(temp_dictionary[item])
-    print(f'structure_notes: {structure_notes}')
+        structure_notes.append(major_scale_degrees_dict[item])
+    # print(f'structure_notes: {structure_notes}')
     temp_root = structure_notes[0]
-    print(f'temp root: {temp_root}')
+    # print(f'temp root: {temp_root}')
 
     # iterate though strings
     for string in string_names:
@@ -315,13 +310,13 @@ for note in major_scale.values():
         # print(f'currated_list_values: {currated_list_values}')
 
         # check if fret positions are within the range specified
-        chords_in_range = []
+        # chords_in_range = []
         for item in currated_list_values:
-            x = fret_in_range(item, fret_range)
-            if x != None:
-                chords_in_range.append(x)
-                diatonic_chords[temp_root]["structures"].append(x)
-        print(f'chords_in_range: {chords_in_range}')
+            check_chord = fret_in_range(item, fret_range)
+            if check_chord != None:
+                # chords_in_range.append(x)
+                diatonic_chords[temp_root]["structures"].append(check_chord)
+        # print(f'chords_in_range: {chords_in_range}')
 
         # append chodrs in range to dictionary
 print(diatonic_chords)
